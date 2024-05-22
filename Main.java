@@ -1,11 +1,5 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,7 +65,8 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String text = topTextArea.getText();
-                bottomTextArea.setText(text);
+                String result = novel2html(text);
+                bottomTextArea.setText(result);
             }
         });
 
@@ -79,28 +74,9 @@ public class Main {
         frame.setVisible(true);
     }
 
-    public static void novel2html(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("処理したいテキストファイルのファイルパスを入力してください。\n(何も入力せずEnterでこのプログラムと同じ位置に存在するtext.txtを読み込みます。)\n>");
-        String filename = scanner.nextLine().trim();
+    public static String novel2html(String message) {
 
-        if (filename.isEmpty()) {
-            filename = "./text.txt";
-        }
-
-        String paragraph = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-            paragraph = sb.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String[] paragraphAr = paragraph.split("\n");
+        String[] paragraphAr = message.split("\n");
         int size = paragraphAr.length;
         int i = 1;
 
@@ -202,12 +178,6 @@ public class Main {
 
         System.out.println(lastResult);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("./result.txt"))) {
-            writer.write(lastResult);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        scanner.close();
+        return lastResult;
     }
 }
