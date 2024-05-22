@@ -1,0 +1,6 @@
+<p>以下のようにすると<br />
+<ruby><rb>振り仮名</rb><rp>（</rp><rt>ルビ</rt><rp>）</rp></ruby><br />
+以下のようにすると<br />
+<span class="goma">傍点</span><br />
+以下のようにすると<br />
+<span class="bb">―――</span></p>
