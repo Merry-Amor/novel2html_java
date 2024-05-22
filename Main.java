@@ -1,10 +1,18 @@
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+
+
 
 public class Main {
 
@@ -36,6 +44,9 @@ public class Main {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10); // Padding
 
+        // コピーボタンの作成
+        JButton copyButton = new JButton("コピー");
+
         // 上部分のテキストエリアの位置調整と配置、及びとスクロール設定の有効化
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -60,6 +71,15 @@ public class Main {
         gbc.weighty = 1.0;
         frame.add(new JScrollPane(bottomTextArea), gbc);
 
+        // コピーボタンの配置
+        // 変換ボタンの配置
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        frame.add(copyButton, gbc);
+
         // イベントリスナーの作成
         convertButton.addActionListener(new ActionListener() {
             @Override
@@ -67,6 +87,14 @@ public class Main {
                 String text = topTextArea.getText();
                 String result = novel2html(text);
                 bottomTextArea.setText(result);
+            }
+        });
+
+        copyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = bottomTextArea.getText();
+                copyToClipboard(text);
             }
         });
 
@@ -180,4 +208,16 @@ public class Main {
 
         return lastResult;
     }
+
+    public static void copyToClipboard(String text) {
+        // クリップボードオブジェクトを取得
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+        // コピーするテキストをStringSelectionオブジェクトに設定
+        StringSelection selection = new StringSelection(text);
+
+        // クリップボードにコピーする
+        clipboard.setContents(selection, null);
+    }
+
 }
